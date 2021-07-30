@@ -1,12 +1,14 @@
 #!/bin/bash
 
+## entrypoint script for container ENTRYPOINT
+## need to add more try/catch for operations
+## also uses global git config for now - need tp change that!
+
 deregister_runner() {
-	echo $(pwd)
-echo shutdiwn
-     echo $(date) >> config/updates.txt
      cd config
-     git config --global user.email "you@example.com"
-     git config --global user.name "Your Name"
+     echo $(date) >> ./shutdowns.txt
+     git config --global user.email "configs@pknw1.co.uk"
+     git config --global user.name "config"
      git add .
      git commit -m "$(date)"
      git push
@@ -23,9 +25,10 @@ else
 	git clone git@github.com:pknw1/${REPO}.git /config
 fi
 
-trap deregister_runner SIGINT SIGQUIT SIGTERM
+# list of signals from https://www-uxsup.csx.cam.ac.uk/courses/moved.Building/signals.pdf
+
+trap deregister_runner SIGINT SIGQUIT SIGTERM SIGABRT 
 
 while true; do
-	echo $REPO
     sleep 10
 done
