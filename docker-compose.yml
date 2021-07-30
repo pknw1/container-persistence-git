@@ -1,0 +1,54 @@
+version: '3'
+volumes:
+  config:
+
+services:
+
+  config:
+    image: pknw1/config:latest
+    pull_policy: always
+    container_name: config-${APP}
+    hostname: config-${APP}
+    restart: always 
+    networks:
+      - proxy
+    volumes:
+      - /etc/ssl:/etc/ssl
+      - /root/.ssh:/root/.ssh
+      - /etc/localtime:/etc/localtime
+      - config:/config
+    environment:
+      - TZ="Europe/London"
+      - PUID=666
+      - PGID=666
+      - REPO=config-${APP}
+
+  app:
+    image: portainer/portainer:latest
+    depends_on:
+      - "config"
+    pull_policy: always
+    container_name: ${APP}
+    restart: always
+    hostname: ${HOST}
+    networks:
+      - proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/ssl:/etc/ssl
+      - /etc/localtime:/etc/localtime
+      - /tmp:/tmp
+      - config:/data
+      - /shared:/shared
+    environment:
+      - TZ="Europe/London"
+      - VIRTUAL_HOST=${HOST}.pknw1.co.uk
+      - VIRTUAL_PORT=${PORT}
+      - PUID=666
+      - PGID=666
+
+
+networks:
+  proxy:
+    external:
+      name: proxy
