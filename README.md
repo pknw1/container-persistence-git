@@ -1,5 +1,8 @@
 # container-persistence-git
 
+launches a pair of containers modelled around the lsio containers and persistence via /config folder so that the container can be pulled and maintain persistence without needing local storage permanently
+
+
 - config container shares mount with app container
 - config container commit's changes on shutdown
 - config container pulls changes on startup OR pulls config if missing
@@ -13,3 +16,9 @@
 * refine docker-compose 
 * refine terraform
 
+##### notes
+
+- yes first version is crap-ish; this is a work in progress
+- this container mirrors previous incarnations using rclone and will merge for a configurable backend storage location
+- LXC version for proxmox once all the bugs are ironed out
+- still? send me some suggestions 
