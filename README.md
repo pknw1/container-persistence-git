@@ -1,8 +1,8 @@
 # container-persistence-git
 
-config container shares mount with app container
-config container commit's changes on shutdown
-config container pulls changes on startup OR pulls config if missing
+- config container shares mount with app container
+- config container commit's changes on shutdown
+- config container pulls changes on startup OR pulls config if missing
 
 # TODO
 
