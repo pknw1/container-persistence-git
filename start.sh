@@ -22,7 +22,8 @@ then
 	git pull
 	cd ..
 else
-	git clone git@github.com:pknw1/${REPO}.git /config
+	#git clone git@github.com:pknw1/${REPO}.git /config
+	git clone git@gitlab.com:pknw1-servers/ks2.pknw1.co.uk/container-configs/${REPO}.git /config
 fi
 
 # list of signals from https://www-uxsup.csx.cam.ac.uk/courses/moved.Building/signals.pdf
