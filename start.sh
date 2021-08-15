@@ -9,9 +9,9 @@ deregister_runner() {
      echo $(date) >> ./shutdowns.txt
      git config --global user.email "configs@pknw1.co.uk"
      git config --global user.name "config"
-     git add .
-     git commit -m "$(date)"
-     git push
+     git add . && echo files added || echo fail
+     git commit -m "$(date)" || echo fail
+     git push || echo fail
     exit
 }
 
@@ -23,12 +23,13 @@ then
 	cd ..
 else
 	#git clone git@github.com:pknw1/${REPO}.git /config
+	rm -rf /config/*
 	git clone git@gitlab.com:pknw1-servers/ks2.pknw1.co.uk/container-configs/${REPO}.git /config
 fi
 
 # list of signals from https://www-uxsup.csx.cam.ac.uk/courses/moved.Building/signals.pdf
 
-trap deregister_runner SIGINT SIGQUIT SIGTERM SIGABRT 
+trap deregister_runner SIGINT SIGQUIT SIGKILL SIGSTOP SIGTERM SIGABRT 
 
 while true; do
     sleep 10
