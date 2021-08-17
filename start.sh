@@ -7,6 +7,10 @@
 deregister_runner() {
      cd config
      echo $(date) >> ./shutdowns.txt
+     if [ -f /config/index.lock ]
+     then
+	     rm -f /config/index.lock
+     fi
      git config --global user.email "configs@pknw1.co.uk"
      git config --global user.name "config"
      git add . && echo files added || echo fail
@@ -14,6 +18,8 @@ deregister_runner() {
      git push || echo fail
     exit
 }
+
+
 
 
 if [ -d /config/.git ]
@@ -26,6 +32,8 @@ else
 	rm -rf /config/*
 	git clone git@gitlab.com:pknw1-servers/ks2.pknw1.co.uk/container-configs/${REPO}.git /config
 fi
+
+cd /config && chown -R 666:666 *
 
 # list of signals from https://www-uxsup.csx.cam.ac.uk/courses/moved.Building/signals.pdf
 
