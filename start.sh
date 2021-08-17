@@ -4,7 +4,7 @@
 ## need to add more try/catch for operations
 ## also uses global git config for now - need tp change that!
 
-echo "$(date) config-startup">> /tmp/config-plex-running
+echo "$(date) config-startup">> /tmp/${REPO}-running
 
 deregister_runner() {
      cd /config
@@ -24,14 +24,14 @@ deregister_runner() {
 
 if [ -d /config/.git ]
 then
-	touch /tmp/config-plex
+	touch /tmp/${REPO}
 	cd /config
-	git pull -v && rm /tmp/config-plex 
+	git pull -v && rm /tmp/${REPO} 
 	cd ..
 else
-	touch /tmp/config-plex
+	touch /tmp/${REPO}
 	rm -rf /config/*
-	git clone git@gitlab.com:pknw1-servers/ks2.pknw1.co.uk/container-configs/${REPO}.git /config && rm /tmp/config-plex
+	git clone git@gitlab.com:pknw1-servers/ks2.pknw1.co.uk/container-configs/${REPO}.git /config && rm /tmp/${REPO}
 fi
 
 cd /config && chown -R 666:666 *
