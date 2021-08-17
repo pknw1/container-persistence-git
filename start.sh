@@ -7,9 +7,9 @@
 deregister_runner() {
      cd config
      echo $(date) >> ./shutdowns.txt
-     if [ -f /config/index.lock ]
+     if [ -f /config/.git/index.lock ]
      then
-	     rm -f /config/index.lock
+	     rm -f /config/.git/index.lock
      fi
      git config --global user.email "configs@pknw1.co.uk"
      git config --global user.name "config"
