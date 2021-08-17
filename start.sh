@@ -28,30 +28,25 @@ deregister_runner() {
 
 if [ -d /config/.git ]
 then
-	"$(date) config-pull">> /tmp/config-plex-running
+	"$(date) config-pull">> /tmp/config-plex
 	cd /config
 	git pull -v 
 	cd ..
+	cat /tmp/config-plex >> /tmp/config-plex-logs && rm -f /tmp/config-plex
 else
-	echo "$(date) config-clone-repo">> /tmp/config-plex-running
+	echo "$(date) config-clone-repo">> /tmp/config-plex
 	#git clone git@github.com:pknw1/${REPO}.git /config
 	rm -rf /config/*
 	git clone git@gitlab.com:pknw1-servers/ks2.pknw1.co.uk/container-configs/${REPO}.git /config
+	cat /tmp/config-plex >> /tmp/config-plex-logs && rm -f /tmp/config-plex
 fi
 
 cd /config && chown -R 666:666 *
-
-if [ -f /tmp/config-plex-running ]
-then
-	cp /tmp/config-plex-running /tmp/config-plex-complete
-else
-	echo ERROR >> /tmp/config-plex-complete
-fi
 
 # list of signals from https://www-uxsup.csx.cam.ac.uk/courses/moved.Building/signals.pdf
 
 trap deregister_runner SIGINT SIGQUIT SIGKILL SIGSTOP SIGTERM SIGABRT 
 
-#while true; do
-#    sleep 10
-#done
+while true; do
+    sleep 10
+done
