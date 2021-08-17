@@ -5,7 +5,7 @@
 ## also uses global git config for now - need tp change that!
 
 deregister_runner() {
-     cd config
+     cd /config
      echo $(date) >> ./shutdowns.txt
      if [ -f /config/.git/index.lock ]
      then
@@ -24,7 +24,7 @@ deregister_runner() {
 
 if [ -d /config/.git ]
 then
-	cd config
+	cd /config
 	git pull -v 
 	cd ..
 else
