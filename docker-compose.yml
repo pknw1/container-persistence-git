@@ -10,6 +10,11 @@ services:
     container_name: config-${APP}
     hostname: config-${APP}
     restart: always 
+    healthcheck:
+      test: ["CMD-SHELL", "while [ -f /tmp/config-plex ]; do echo running sync; sleep 5; done || exit 1"]
+      interval: 10s
+      retries: 9999
+    stop_grace_period: 600s
     networks:
       - proxy
     volumes:
@@ -26,7 +31,8 @@ services:
   app:
     image: portainer/portainer:latest
     depends_on:
-      - "config"
+      - config:
+          condition: service_healthy
     pull_policy: always
     container_name: ${APP}
     restart: always
@@ -34,11 +40,10 @@ services:
     networks:
       - proxy
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
       - /etc/ssl:/etc/ssl
       - /etc/localtime:/etc/localtime
       - /tmp:/tmp
-      - config:/data
+      - config:/config
       - /shared:/shared
     environment:
       - TZ="Europe/London"
