@@ -7,7 +7,6 @@
 echo "$(date) config-startup">> /tmp/config-plex-running
 
 deregister_runner() {
-	echo "$(date) config-startup">> /tmp/config-plex-running
      cd /config
      echo $(date) >> ./shutdowns.txt
      if [ -f /config/.git/index.lock ]
@@ -19,26 +18,20 @@ deregister_runner() {
      git add . -v && echo files added || echo fail
      git commit -m "$(date)" -v || echo fail
      git push -v  || echo fail
-     mv /tmp/config-plex-running /tmp/config-plex-$(date +%s)
     exit
 }
 
 
-
-
 if [ -d /config/.git ]
 then
-	"$(date) config-pull">> /tmp/config-plex
+	touch /tmp/config-plex
 	cd /config
-	git pull -v 
+	git pull -v && rm /tmp/config-plex 
 	cd ..
-	cat /tmp/config-plex >> /tmp/config-plex-logs && rm -f /tmp/config-plex
 else
-	echo "$(date) config-clone-repo">> /tmp/config-plex
-	#git clone git@github.com:pknw1/${REPO}.git /config
+	touch /tmp/config-plex
 	rm -rf /config/*
-	git clone git@gitlab.com:pknw1-servers/ks2.pknw1.co.uk/container-configs/${REPO}.git /config
-	cat /tmp/config-plex >> /tmp/config-plex-logs && rm -f /tmp/config-plex
+	git clone git@gitlab.com:pknw1-servers/ks2.pknw1.co.uk/container-configs/${REPO}.git /config && rm /tmp/config-plex
 fi
 
 cd /config && chown -R 666:666 *
