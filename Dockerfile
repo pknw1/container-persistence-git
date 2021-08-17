@@ -1,8 +1,7 @@
-FROM ubuntu:latest
+FROM alpine:latest
 
-RUN apt update && apt install -y git
+RUN apk update && apk add git openssh bash
 
 COPY ./start.sh /start.sh
-COPY ./sync-www.sh /sync-www.sh
 
 ENTRYPOINT ["/start.sh"]

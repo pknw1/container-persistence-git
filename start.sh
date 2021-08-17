@@ -13,9 +13,9 @@ deregister_runner() {
      fi
      git config --global user.email "configs@pknw1.co.uk"
      git config --global user.name "config"
-     git add . && echo files added || echo fail
-     git commit -m "$(date)" || echo fail
-     git push || echo fail
+     git add . -v && echo files added || echo fail
+     git commit -m "$(date)" -v || echo fail
+     git push -v  || echo fail
     exit
 }
 
@@ -25,7 +25,7 @@ deregister_runner() {
 if [ -d /config/.git ]
 then
 	cd config
-	git pull
+	git pull -v 
 	cd ..
 else
 	#git clone git@github.com:pknw1/${REPO}.git /config
