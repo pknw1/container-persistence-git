@@ -2,6 +2,6 @@ FROM alpine:latest
 
 RUN apk update && apk add git openssh bash
 
-COPY ./start.sh /start.sh
+COPY ./entrypoint.sh /entrypoint.sh
 
-ENTRYPOINT ["/start.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
